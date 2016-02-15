@@ -17,7 +17,7 @@ namespace Server
 		public static void Main(string[] args)
 		{	
 			Console.WriteLine("Server Start listening on port 8888.");
-			var server = new TcpListener(8888);
+			var server = new TcpListener(8888);//rudy
 			server.Start();
 			
 			var n = 0;
