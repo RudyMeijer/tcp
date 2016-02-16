@@ -62,13 +62,17 @@ namespace Server
 				{
 					while (client.Connected)
 					{
-						if (Console.KeyAvailable) // Write Server data to client.
+						// Write Server data to client.
+						//
+						if (Console.KeyAvailable) 
 						{
 							var c = Console.Read();
 							var b = new byte[5]; b[0] = (byte)c;
 							ns.Write(b, 0, 1);
 						}
-						if (ns.DataAvailable) // Show client data on Server console.
+						// Show client data on Server console.
+						//
+						if (ns.DataAvailable) 
 						{
 							Console.Write((char)ns.ReadByte());
 						}

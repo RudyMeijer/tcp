@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Client
@@ -23,12 +24,14 @@ namespace Client
 		private TcpClient client;
 		private NetworkStream ns;
 		private Byte[] buf = new byte[300];
+		private SynchronizationContext syncContext;
 		public MainForm()
 		{
 			//
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
+			syncContext = SynchronizationContext.Current; //in constrcutor
 		}
 
 		private void btnConnect_Click(object sender, EventArgs e)
@@ -37,27 +40,30 @@ namespace Client
 			{
 				var port = 8888;
 				client = new TcpClient(txtHostname.Text, port);
-				client.ReceiveTimeout = 1;
+				if (client.Connected) ShowMessage("Client is succesfull connected!");
+				//client.ReceiveTimeout = 1;
 				ns = client.GetStream();
 				ns.BeginRead(buf, 0, 1, HandleRead, null);
-				if (client.Connected) ShowMessage("Client is succesfull connected!");
 			}
 			catch (Exception ex)
 			{
-				txtMessages.AppendText("\r\n " + ex.Message);
+				ShowMessage("\r\n " + ex.Message);
 			}
 		}
 
 		private void ShowMessage(string msg)
 		{
 			this.txtMessages.TextChanged -= new System.EventHandler(this.txtMessages_TextChanged);
-			this.txtMessages.Text = msg;
+			syncContext.Send(new SendOrPostCallback((s) => { this.txtMessages.AppendText(msg); }), null); 
+			//this.txtMessages.Text = msg;
 			this.txtMessages.TextChanged += new System.EventHandler(this.txtMessages_TextChanged);
 		}
 
-		private void HandleRead(IAsyncResult ar)
+		public void HandleRead(IAsyncResult ar)
 		{
-			Console.WriteLine("asynchResult {0}", ar);
+			//var s = Helper.GetString(buf);
+			ShowMessage(String.Format("read: {0}", buf[0]));
+			ns.BeginRead(buf, 0, 1, HandleRead, null);
 		}
 
 		private void btnDisconnect_Click(object sender, EventArgs e)
@@ -76,16 +82,16 @@ namespace Client
 			}
 		}
 	}
-	static class Helper
+	public class Helper
 	{
-		static byte[] GetBytes(string str)
+		public static byte[] GetBytes(string str)
 		{
 			byte[] bytes = new byte[str.Length * sizeof(char)];
 			System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
 			return bytes;
 		}
 
-		static string GetString(byte[] bytes)
+		public static string GetString(byte[] bytes)
 		{
 			char[] chars = new char[bytes.Length / sizeof(char)];
 			System.Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
