@@ -14,8 +14,6 @@ namespace Client
 		/// Designer variable used to keep track of non-visual components.
 		/// </summary>
 		private System.ComponentModel.IContainer components = null;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.ListBox listBox1;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -38,38 +36,74 @@ namespace Client
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.label1 = new System.Windows.Forms.Label();
-			this.listBox1 = new System.Windows.Forms.ListBox();
+			this.btnConnect = new System.Windows.Forms.Button();
+			this.btnDisconnect = new System.Windows.Forms.Button();
+			this.txtMessages = new System.Windows.Forms.TextBox();
+			this.txtHostname = new System.Windows.Forms.TextBox();
 			this.SuspendLayout();
 			// 
-			// label1
+			// btnConnect
 			// 
-			this.label1.Location = new System.Drawing.Point(19, 9);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(107, 24);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "label1";
+			this.btnConnect.Location = new System.Drawing.Point(14, 3);
+			this.btnConnect.Name = "btnConnect";
+			this.btnConnect.Size = new System.Drawing.Size(75, 23);
+			this.btnConnect.TabIndex = 2;
+			this.btnConnect.Text = "Connect";
+			this.btnConnect.UseVisualStyleBackColor = true;
+			this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
 			// 
-			// listBox1
+			// btnDisconnect
 			// 
-			this.listBox1.FormattingEnabled = true;
-			this.listBox1.ItemHeight = 16;
-			this.listBox1.Location = new System.Drawing.Point(19, 31);
-			this.listBox1.Name = "listBox1";
-			this.listBox1.Size = new System.Drawing.Size(229, 180);
-			this.listBox1.TabIndex = 1;
+			this.btnDisconnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnDisconnect.Location = new System.Drawing.Point(275, 3);
+			this.btnDisconnect.Name = "btnDisconnect";
+			this.btnDisconnect.Size = new System.Drawing.Size(75, 23);
+			this.btnDisconnect.TabIndex = 3;
+			this.btnDisconnect.Text = "Disconnect";
+			this.btnDisconnect.UseVisualStyleBackColor = true;
+			this.btnDisconnect.Click += new System.EventHandler(this.btnDisconnect_Click);
+			// 
+			// txtMessages
+			// 
+			this.txtMessages.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtMessages.Location = new System.Drawing.Point(14, 31);
+			this.txtMessages.Multiline = true;
+			this.txtMessages.Name = "txtMessages";
+			this.txtMessages.Size = new System.Drawing.Size(336, 163);
+			this.txtMessages.TabIndex = 4;
+			this.txtMessages.Text = "Please press Connect";
+			this.txtMessages.TextChanged += new System.EventHandler(this.txtMessages_TextChanged);
+			// 
+			// txtHostname
+			// 
+			this.txtHostname.Location = new System.Drawing.Point(95, 5);
+			this.txtHostname.Name = "txtHostname";
+			this.txtHostname.Size = new System.Drawing.Size(63, 20);
+			this.txtHostname.TabIndex = 5;
+			this.txtHostname.Text = "localhost";
 			// 
 			// MainForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(282, 253);
-			this.Controls.Add(this.listBox1);
-			this.Controls.Add(this.label1);
+			this.ClientSize = new System.Drawing.Size(362, 206);
+			this.Controls.Add(this.txtHostname);
+			this.Controls.Add(this.txtMessages);
+			this.Controls.Add(this.btnDisconnect);
+			this.Controls.Add(this.btnConnect);
+			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "MainForm";
 			this.Text = "Client";
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
+
+		private System.Windows.Forms.Button btnConnect;
+		private System.Windows.Forms.Button btnDisconnect;
+		private System.Windows.Forms.TextBox txtMessages;
+		private System.Windows.Forms.TextBox txtHostname;
 	}
 }

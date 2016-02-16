@@ -7,6 +7,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
+using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
@@ -15,37 +16,67 @@ namespace Server
 	class Program
 	{
 		public static void Main(string[] args)
-		{	
-			Console.WriteLine("Server Start listening on port 8888.");
-			var server = new TcpListener(8888);//rudy
+		{
+			var port = 8888;
+			var server = new TcpListener(IPAddress.Parse("127.0.0.1"), port);
+			server.Server.ReceiveTimeout = 100;
 			server.Start();
-			
+
 			var n = 0;
-			Console.Write("Press any key to exit . . . ");
-			while (!Console.KeyAvailable) 
+			Console.Write("Press any key to exit . . .\r\n");
+			while (true)
 			{
 				var client = server.AcceptTcpClient();
 				var t = new Thread(new ThreadStart(new HandleClient(client, ++n).Execute));
 				t.Start();
 			}
-			Console.WriteLine("Server stopped");
-			Console.ReadKey(true);
+			//Console.WriteLine("Server stopped");
+			//Console.ReadKey(true);
 		}
 		public class HandleClient
 		{
 			TcpClient client;
 			int n;
+			private NetworkStream ns;
+			private Byte[] buf = new byte[300];
 			public HandleClient(TcpClient client, int n)
 			{
 				this.n = n;
 				this.client = client;
+				//client.ReceiveTimeout = 1;
+				ns = client.GetStream();
+				//ns.BeginRead(buf, 0, 1, HandleRead, null);
 			}
+
+			//private void HandleRead(IAsyncResult ar)
+			//{
+			//	Console.Write((char)buf[0]);
+
+			//	if (ar.IsCompleted)	ns.BeginRead(buf, 0, 1, HandleRead, null);
+			//}
 
 			public void Execute()
 			{
 				Console.WriteLine("Client {0} started.", n);
-				Console.ReadKey();
-				Console.WriteLine("Client {0} stopped.", n);
+				try
+				{
+					while (client.Connected)
+					{
+						if (Console.KeyAvailable) // Write Server data to client.
+						{
+							var c = Console.Read();
+							var b = new byte[5]; b[0] = (byte)c;
+							ns.Write(b, 0, 1);
+						}
+						if (ns.DataAvailable) // Show client data on Server console.
+						{
+							Console.Write((char)ns.ReadByte());
+						}
+					}
+					Console.WriteLine("Client {0} stopped.", n);
+
+				}
+				catch (Exception ex) { Console.WriteLine(ex.Message); }
 			}
 		}
 	}
