@@ -66,7 +66,7 @@ namespace Server
 						//
 						if (Console.KeyAvailable) 
 						{
-							var c = Console.Read();
+							var c = Console.ReadKey().Key;
 							var b = new byte[5]; b[0] = (byte)c;
 							ns.Write(b, 0, 1);
 						}

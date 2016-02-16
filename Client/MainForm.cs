@@ -40,8 +40,8 @@ namespace Client
 			{
 				var port = 8888;
 				client = new TcpClient(txtHostname.Text, port);
-				if (client.Connected) ShowMessage("Client is succesfull connected!");
-				//client.ReceiveTimeout = 1;
+				if (client.Connected) ShowMessage("\r\n\nClient is succesfull connected!");
+				client.ReceiveTimeout = 0;
 				ns = client.GetStream();
 				ns.BeginRead(buf, 0, 1, HandleRead, null);
 			}
@@ -61,8 +61,8 @@ namespace Client
 
 		public void HandleRead(IAsyncResult ar)
 		{
-			//var s = Helper.GetString(buf);
-			ShowMessage(String.Format("read: {0}", buf[0]));
+			var s = Helper.GetString(buf,2);
+			ShowMessage(s);
 			ns.BeginRead(buf, 0, 1, HandleRead, null);
 		}
 
@@ -91,10 +91,10 @@ namespace Client
 			return bytes;
 		}
 
-		public static string GetString(byte[] bytes)
+		public static string GetString(byte[] bytes,int length)
 		{
-			char[] chars = new char[bytes.Length / sizeof(char)];
-			System.Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
+			char[] chars = new char[length / sizeof(char)];
+			System.Buffer.BlockCopy(bytes, 0, chars, 0, length);
 			return new string(chars);
 		}
 	}
