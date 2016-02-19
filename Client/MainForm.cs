@@ -54,7 +54,7 @@ namespace Client
 		private void ShowMessage(string msg)
 		{
 			this.txtMessages.TextChanged -= new System.EventHandler(this.txtMessages_TextChanged);
-			syncContext.Send(new SendOrPostCallback((s) => { this.txtMessages.AppendText(msg); }), null); 
+			syncContext.Send(new SendOrPostCallback(s => this.txtMessages.AppendText(msg)), null); 
 			//this.txtMessages.Text = msg;
 			this.txtMessages.TextChanged += new System.EventHandler(this.txtMessages_TextChanged);
 		}
@@ -68,7 +68,10 @@ namespace Client
 
 		private void btnDisconnect_Click(object sender, EventArgs e)
 		{
-			client.Close();
+			
+			client.Client.Shutdown(SocketShutdown.Both);
+			//client.Close();
+			//ns = null;
 		}
 
 		private void txtMessages_TextChanged(object sender, EventArgs e)

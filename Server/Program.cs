@@ -23,7 +23,7 @@ namespace Server
 			server.Start();
 
 			var n = 0;
-			Console.Write("Press any key to exit . . .\r\n");
+			Console.Write("Server start listening on port 8888 . . .\r\n");
 			while (true)
 			{
 				var client = server.AcceptTcpClient();
@@ -35,7 +35,7 @@ namespace Server
 		}
 		public class HandleClient
 		{
-			TcpClient client;
+			readonly TcpClient client;
 			int n;
 			private NetworkStream ns;
 			private Byte[] buf = new byte[300];
