@@ -13,7 +13,7 @@ using System.Threading;
 
 namespace Server
 {
-	class Program
+	class Server
 	{
 		public static void Main(string[] args)
 		{

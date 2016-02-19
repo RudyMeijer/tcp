@@ -8,7 +8,7 @@
  */
 namespace Client
 {
-	partial class MainForm
+	partial class Client
 	{
 		/// <summary>
 		/// Designer variable used to keep track of non-visual components.
@@ -21,7 +21,7 @@ namespace Client
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		protected override void Dispose(bool disposing)
 		{
-			client.Dispose();
+			//client.Dispose();
 			if (disposing) {
 				if (components != null) {
 					components.Dispose();

@@ -19,13 +19,13 @@ namespace Client
 	/// <summary>
 	/// Description of MainForm.
 	/// </summary>
-	public partial class MainForm : Form
+	public partial class Client : Form
 	{
 		private TcpClient client;
 		private NetworkStream ns;
 		private Byte[] buf = new byte[300];
 		private SynchronizationContext syncContext;
-		public MainForm()
+		public Client()
 		{
 			//
 			// The InitializeComponent() call is required for Windows Forms designer support.
