@@ -38,12 +38,12 @@ namespace Client
 		{
 			try
 			{
-				var port = 8888;
+				var port = int.Parse(txtPortNr.Text); //8888
 				client = new TcpClient(txtHostname.Text, port);
-				if (client.Connected) ShowMessage("\r\n\nClient is succesfull connected!");
-				client.ReceiveTimeout = 0;
+				if (client.Connected) ShowMessage("\r\nClient is succesfull connected!");
+				//client.ReceiveTimeout = 0;
 				ns = client.GetStream();
-				ns.BeginRead(buf, 0, 1, HandleRead, null);
+				ns.BeginRead(buf, 0, 300, HandleRead, null);
 			}
 			catch (Exception ex)
 			{
@@ -55,30 +55,26 @@ namespace Client
 		{
 			this.txtMessages.TextChanged -= new System.EventHandler(this.txtMessages_TextChanged);
 			syncContext.Send(new SendOrPostCallback(s => this.txtMessages.AppendText(msg)), null); 
-			//this.txtMessages.Text = msg;
 			this.txtMessages.TextChanged += new System.EventHandler(this.txtMessages_TextChanged);
 		}
 
 		public void HandleRead(IAsyncResult ar)
 		{
-			var s = Helper.GetString(buf,2);
+			var s = Helper.GetString(buf);
 			ShowMessage(s);
-			ns.BeginRead(buf, 0, 1, HandleRead, null);
+			ns.BeginRead(buf, 0, 300, HandleRead, null);
 		}
 
 		private void btnDisconnect_Click(object sender, EventArgs e)
 		{
-			
 			client.Client.Shutdown(SocketShutdown.Both);
-			//client.Close();
-			//ns = null;
 		}
 
 		private void txtMessages_TextChanged(object sender, EventArgs e)
 		{
 			if (client.Connected)
 			{
-				var t = (sender as Control).Text;
+				var t = (sender as Control).Text ;
 				char c = t[t.Length - 1];
 				var b = new byte[5]; b[0] = (byte)c;
 				ns.Write(b, 0, 1);
@@ -94,11 +90,10 @@ namespace Client
 			return bytes;
 		}
 
-		public static string GetString(byte[] bytes,int length)
+		public static string GetString(byte[] buffer)
 		{
-			char[] chars = new char[length / sizeof(char)];
-			System.Buffer.BlockCopy(bytes, 0, chars, 0, length);
-			return new string(chars);
+			string s = System.Text.Encoding.UTF8.GetString(buffer, 0, buffer.Length);
+			return s;
 		}
 	}
 }

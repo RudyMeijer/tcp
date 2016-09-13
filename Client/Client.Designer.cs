@@ -41,6 +41,7 @@ namespace Client
 			this.btnDisconnect = new System.Windows.Forms.Button();
 			this.txtMessages = new System.Windows.Forms.TextBox();
 			this.txtHostname = new System.Windows.Forms.TextBox();
+			this.txtPortNr = new System.Windows.Forms.TextBox();
 			this.SuspendLayout();
 			// 
 			// btnConnect
@@ -81,21 +82,30 @@ namespace Client
 			// 
 			this.txtHostname.Location = new System.Drawing.Point(95, 5);
 			this.txtHostname.Name = "txtHostname";
-			this.txtHostname.Size = new System.Drawing.Size(63, 20);
+			this.txtHostname.Size = new System.Drawing.Size(96, 20);
 			this.txtHostname.TabIndex = 5;
 			this.txtHostname.Text = "localhost";
 			// 
-			// MainForm
+			// txtPortNr
+			// 
+			this.txtPortNr.Location = new System.Drawing.Point(197, 5);
+			this.txtPortNr.Name = "txtPortNr";
+			this.txtPortNr.Size = new System.Drawing.Size(35, 20);
+			this.txtPortNr.TabIndex = 6;
+			this.txtPortNr.Text = "23";
+			// 
+			// Client
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(362, 206);
+			this.Controls.Add(this.txtPortNr);
 			this.Controls.Add(this.txtHostname);
 			this.Controls.Add(this.txtMessages);
 			this.Controls.Add(this.btnDisconnect);
 			this.Controls.Add(this.btnConnect);
 			this.Margin = new System.Windows.Forms.Padding(2);
-			this.Name = "MainForm";
+			this.Name = "Client";
 			this.Text = "Client";
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -106,5 +116,6 @@ namespace Client
 		private System.Windows.Forms.Button btnDisconnect;
 		private System.Windows.Forms.TextBox txtMessages;
 		private System.Windows.Forms.TextBox txtHostname;
+		private System.Windows.Forms.TextBox txtPortNr;
 	}
 }
