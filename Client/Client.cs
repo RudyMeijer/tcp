@@ -61,6 +61,7 @@ namespace Client
 		public void HandleRead(IAsyncResult ar)
 		{
 			var s = Helper.GetString(buf);
+			for (int i = 0; i < s.Length; i++) buf[i] = 0;
 			ShowMessage(s);
 			ns.BeginRead(buf, 0, 300, HandleRead, null);
 		}
