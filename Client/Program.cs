@@ -1,6 +1,6 @@
 ﻿/*
  * Created by SharpDevelop.
- * User: Rudy
+ * User: Rudy.
  * Date: 15-2-2016
  * Time: 23:44
  * 
